@@ -9,7 +9,7 @@ exclude = [
     ".ipynb_checkpoints",
     "__pycache__",
 ]
-line-length = 88
+line-length = 100
 indent-width = 4
 
 [tool.ruff.format]
@@ -45,7 +45,3 @@ ignore = ["B008", "N805"]
 
 [tool.ruff.lint.flake8-quotes]
 docstring-quotes = "double"
-
-
-[tool.ruff.lint.per-file-ignores]
-"src/shemas/profile.py" = ["N805"]
