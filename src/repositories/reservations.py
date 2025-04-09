@@ -1,50 +1,44 @@
-from datetime import timedelta
 from typing import Optional
 
 from fastapi import HTTPException, status
-from sqlalchemy import literal_column, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.db.models import Reservation, Table
+from src.db.models import Reservation
+from src.repositories.tables import TableCRUD
 
 
 class ReservationCRUD:
     @staticmethod
-    async def create(db: AsyncSession, reservation_data: dict) -> Reservation:
-        result = await db.execute(
-            select(Table).where(Table.id == reservation_data.pop("table_id"))
-        )
-        table = result.scalars().first()
-        if not table:
+    async def create(db: AsyncSession, data: dict) -> Reservation:
+        if not await TableCRUD.get_by_id(db, data["table_id"]):
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Столика с таким ID нет."
             )
 
-        new_reservation = Reservation(**reservation_data, table_id=table.id)
-        new_reservation.reservation_time = new_reservation.reservation_time.replace(tzinfo=None)
-        start_time = new_reservation.reservation_time
-        end_time = start_time + timedelta(minutes=new_reservation.duration_minutes)
+        reservation = Reservation(**data)
 
-        stmt = select(Reservation).where(
-            Reservation.table_id == new_reservation.table_id,
-            Reservation.reservation_time < end_time,
-            (Reservation.reservation_time + literal_column(
-                "interval '1 minute'") * Reservation.duration_minutes) > start_time
+        overlapping_stmt = (
+            select(Reservation)
+            .where(
+                Reservation.table_id == data["table_id"],
+                Reservation.reservation_time < reservation.end_time,
+                Reservation.end_time > reservation.reservation_time
+            )
         )
-        result = await db.execute(stmt)
-        conflict = result.scalars().first()
 
-        if conflict:
+        existing = await db.scalar(overlapping_stmt)
+        if existing:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Столик уже забронирован в указанный интервал времени."
             )
 
-        db.add(new_reservation)
+        db.add(reservation)
         await db.commit()
-        await db.refresh(new_reservation)
-        return new_reservation
+        await db.refresh(reservation)
+        return reservation
 
     @staticmethod
     async def get_all(db: AsyncSession) -> list[Reservation]:

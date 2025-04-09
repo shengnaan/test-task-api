@@ -18,7 +18,9 @@ reservation_router = APIRouter(
 async def get_reservations(
     db: AsyncSession = Depends(get_db),
 ) -> list[ReservationModel]:
-    return [ReservationModel.model_validate(obj) for obj in await ReservationCRUD.get_all(db)]
+    return [
+        ReservationModel.model_validate(obj) for obj in await ReservationCRUD.get_all(db)
+    ]
 
 
 @reservation_router.post(
@@ -30,7 +32,9 @@ async def create_reservation(
     reservation_data: ReservationCreate,
     db: AsyncSession = Depends(get_db),
 ) -> ReservationModel:
-    return ReservationModel.model_validate(await ReservationCRUD.create(db, reservation_data.dict()))
+    return ReservationModel.model_validate(
+        await ReservationCRUD.create(db, reservation_data.dict())
+    )
 
 
 @reservation_router.delete(
