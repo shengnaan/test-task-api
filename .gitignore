@@ -22,7 +22,7 @@ auth_db
 .nfs*
 
 .idea
-
+booking_db
 
 ### macOS ###
 # General
