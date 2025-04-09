@@ -19,8 +19,7 @@ table_router = APIRouter(
 async def get_tables(
     db: AsyncSession = Depends(get_db),
 ) -> list[TableModel]:
-    tables = await TableCRUD.get_all(db)
-    return tables
+    return [TableModel.model_validate(obj) for obj in await TableCRUD.get_all(db)]
 
 
 @table_router.post(
@@ -32,8 +31,7 @@ async def create_table(
     table_data: TableCreate,
     db: AsyncSession = Depends(get_db),
 ) -> TableModel:
-    table = await TableCRUD.create(db, table_data.dict())
-    return table
+    return TableModel.model_validate(await TableCRUD.create(db, table_data.dict()))
 
 
 @table_router.delete(
