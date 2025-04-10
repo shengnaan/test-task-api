@@ -35,7 +35,7 @@ jobs:
       TEST_POSTGRES_SERVER: test_db
       TEST_POSTGRES_PORT: 5432
       TEST_POSTGRES_DB: test_booking_db
-      TEST_DATABASE_URL: postgresql+asyncpg://postgres:postgres@test_db:5432/test_booking_db
+      TEST_DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/test_booking_db
       PYTHONUNBUFFERED: 1
       API_PORT: 7000
       API_VERSION: /api/v1
