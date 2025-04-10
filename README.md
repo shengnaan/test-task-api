@@ -52,5 +52,6 @@ docker compose up --build
 docker-compose -f docker-compose-test.yml up --build --abort-on-container-exit --exit-code-from test_app
 ```
 
-Также попробовать потыкать API можно тут - 
+Также попробовать потыкать API можно тут - http://45.159.208.216:7000/docs
+
 Grafana расположена на соответствующем порте, логин и пароль по умолчанию.
