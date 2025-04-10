@@ -19,8 +19,8 @@
 ### 1. Клонируем репозиторий
 
 ```
-git clone <ссылка_на_репозиторий>
-cd <название_папки>
+git clone https://github.com/shengnaan/test-task-api
+cd test-task-api
 ```
 
 ### 2. Создай и активируй venv
