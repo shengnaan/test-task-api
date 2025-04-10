@@ -29,7 +29,7 @@ jobs:
           --health-retries=5
 
     env:
-      CI: true
+      CI: "true"
       USE_TEST_DB: "true"
       TEST_POSTGRES_USER: postgres
       TEST_POSTGRES_PASSWORD: postgres
