@@ -23,10 +23,10 @@ services:
       dockerfile: Dockerfile
       context: .
     container_name: booking_api
+    command: ./entrypoint.sh
     restart: always
     ports:
       - "${API_PORT}:8000"
-    command: uvicorn main:app --host 0.0.0.0 --port 8000
     depends_on:
       db:
         condition: service_healthy
