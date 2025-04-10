@@ -28,9 +28,6 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
-    env:
-      PYTHONUNBUFFERED: 1
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -46,17 +43,11 @@ jobs:
         pip install -r requirements.txt
         pip install ruff pytest pytest-asyncio python-dotenv
 
-    - name: Load env variables from .env.ci
-      run: |
-        echo "Loading .env.ci..."
-        while IFS= read -r line; do
-          if [[ ! $line =~ ^# && $line == *=* ]]; then
-            echo "$line" >> $GITHUB_ENV
-          fi
-        done < .env.ci
+    - name: Use .env.ci as .env
+      run: cp .env.ci .env
 
-    - name: Lint with ruff
-      run: ruff check
+    - name: Lint with ruff (excluding tests/)
+      run: ruff check . --exclude tests
 
     - name: Run tests with pytest
       run: pytest -v

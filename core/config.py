@@ -3,7 +3,6 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-load_dotenv(".env.ci")
 
 class Settings:
     DB_USER = os.getenv("DB_USER")
