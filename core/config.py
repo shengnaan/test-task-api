@@ -16,10 +16,6 @@ class Settings:
                     f"{DB_USER}:{DB_PASSWORD}@{DB_SERVER}:"
                     f"{DB_PORT}/{DB_NAME}")
 
-    DATABASE_URL_ALEMBIC = (f"postgresql+asyncpg://"
-                            f"{DB_USER}:{DB_PASSWORD}@{DB_ALEMBIC_SERVER}:"
-                            f"{DB_PORT}/{DB_NAME}")
-
     TEST_POSTGRES_USER = os.getenv("TEST_POSTGRES_USER")
     TEST_POSTGRES_PASSWORD = os.getenv("TEST_POSTGRES_PASSWORD")
     TEST_POSTGRES_SERVER = os.getenv("TEST_POSTGRES_SERVER")

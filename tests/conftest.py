@@ -2,7 +2,7 @@ import asyncio
 
 from dotenv import load_dotenv
 
-load_dotenv(".env.ci")
+load_dotenv(".env.test")
 
 import logging
 

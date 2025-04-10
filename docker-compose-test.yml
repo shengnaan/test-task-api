@@ -28,7 +28,7 @@ services:
       test_db:
         condition: service_healthy
     env_file:
-      - .env.ci
+      - .env.test
     volumes:
       - .:/app
     working_dir: /app
