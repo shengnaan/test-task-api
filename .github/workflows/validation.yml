@@ -31,6 +31,7 @@ jobs:
     env:
       CI: "true"
       USE_TEST_DB: "true"
+      GH_POSTGRES_SERVER: localhost
       TEST_POSTGRES_USER: postgres
       TEST_POSTGRES_PASSWORD: postgres
       TEST_POSTGRES_SERVER: test_db
