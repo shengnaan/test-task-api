@@ -36,12 +36,12 @@ class Settings:
     TEST_DATABASE_URL = (
         (f"postgresql+asyncpg://"
          f"{TEST_POSTGRES_USER}:{TEST_POSTGRES_PASSWORD}@"
-         f"{TEST_POSTGRES_SERVER}:{TEST_POSTGRES_PORT}/"
+         f"{GH_POSTGRES_SERVER}:{TEST_POSTGRES_PORT}/"
          f"{TEST_POSTGRES_DB}")
         if IS_CI else
         (f"postgresql+asyncpg://"
          f"{TEST_POSTGRES_USER}:{TEST_POSTGRES_PASSWORD}@"
-         f"{GH_POSTGRES_SERVER}:{TEST_POSTGRES_PORT}/"
+         f"{TEST_POSTGRES_SERVER}:{TEST_POSTGRES_PORT}/"
          f"{TEST_POSTGRES_DB}")
     )
 
