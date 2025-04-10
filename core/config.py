@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class Settings:
     DB_USER = os.getenv("DB_USER")
     DB_PASSWORD = os.getenv("DB_PASSWORD")
@@ -16,8 +17,8 @@ class Settings:
                     f"{DB_PORT}/{DB_NAME}")
 
     DATABASE_URL_ALEMBIC = (f"postgresql+asyncpg://"
-                    f"{DB_USER}:{DB_PASSWORD}@{DB_ALEMBIC_SERVER}:"
-                    f"{DB_PORT}/{DB_NAME}")
+                            f"{DB_USER}:{DB_PASSWORD}@{DB_ALEMBIC_SERVER}:"
+                            f"{DB_PORT}/{DB_NAME}")
 
     TEST_POSTGRES_USER = os.getenv("TEST_POSTGRES_USER")
     TEST_POSTGRES_PASSWORD = os.getenv("TEST_POSTGRES_PASSWORD")
@@ -28,6 +29,21 @@ class Settings:
                          f"{TEST_POSTGRES_USER}:{TEST_POSTGRES_PASSWORD}@"
                          f"{TEST_POSTGRES_SERVER}:{TEST_POSTGRES_PORT}/"
                          f"{TEST_POSTGRES_DB}")
+
+    GH_POSTGRES_SERVER = os.getenv("GH_POSTGRES_SERVER")
+    IS_CI = os.getenv("CI", "") == "true"
+
+    TEST_DATABASE_URL = (
+        (f"postgresql+asyncpg://"
+         f"{TEST_POSTGRES_USER}:{TEST_POSTGRES_PASSWORD}@"
+         f"{TEST_POSTGRES_SERVER}:{TEST_POSTGRES_PORT}/"
+         f"{TEST_POSTGRES_DB}")
+        if IS_CI else
+        (f"postgresql+asyncpg://"
+         f"{TEST_POSTGRES_USER}:{TEST_POSTGRES_PASSWORD}@"
+         f"{GH_POSTGRES_SERVER}:{TEST_POSTGRES_PORT}/"
+         f"{TEST_POSTGRES_DB}")
+    )
 
     API_PORT = os.getenv("API_PORT")
     API_VERSION = os.getenv("API_VERSION")
