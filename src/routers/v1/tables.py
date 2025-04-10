@@ -31,7 +31,7 @@ async def create_table(
     table_data: TableCreate,
     db: AsyncSession = Depends(get_db),
 ) -> TableModel:
-    return TableModel.model_validate(await TableCRUD.create(db, table_data.dict()))
+    return TableModel.model_validate(await TableCRUD.create(db, table_data.model_dump()))
 
 
 @table_router.delete(

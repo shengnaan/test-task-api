@@ -33,7 +33,7 @@ async def create_reservation(
     db: AsyncSession = Depends(get_db),
 ) -> ReservationModel:
     return ReservationModel.model_validate(
-        await ReservationCRUD.create(db, reservation_data.dict())
+        await ReservationCRUD.create(db, reservation_data.model_dump())
     )
 
 

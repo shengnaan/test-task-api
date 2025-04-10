@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class ReservationBase(BaseModel):
@@ -10,10 +10,12 @@ class ReservationBase(BaseModel):
     duration_minutes: int = Field(..., description="Продолжительность брони", ge=30)
 
     @field_validator("reservation_time")
-    def make_naive(cls, value: datetime) -> datetime:
+    def make_naive_and_validate_future(cls, value: datetime) -> datetime:
         # Конкретики, касательно времени нет, поэтому все хранится как время без указания таймзоны
         if value.tzinfo is not None and value.utcoffset() is not None:
             value = value.replace(tzinfo=None)
+        if value < datetime.now(UTC).replace(tzinfo=None):
+            raise ValueError("Нельзя бронировать в прошлом.")
         return value
 
 class ReservationCreate(ReservationBase):
@@ -23,5 +25,5 @@ class ReservationCreate(ReservationBase):
 class ReservationModel(ReservationBase):
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
