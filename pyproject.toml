@@ -8,6 +8,7 @@ exclude = [
     ".ipynb",
     ".ipynb_checkpoints",
     "__pycache__",
+    "tests"
 ]
 line-length = 100
 indent-width = 4

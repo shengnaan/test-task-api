@@ -1,0 +1,43 @@
+services:
+  test_db:
+    image: postgres:15
+    container_name: booking_test_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_booking_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata_test:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - test_network
+
+  test_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: booking_test_app
+    command: ./entrypoint.test.sh
+    depends_on:
+      test_db:
+        condition: service_healthy
+    env_file:
+      - .env.ci
+    volumes:
+      - .:/app
+    working_dir: /app
+    networks:
+      - test_network
+
+networks:
+  test_network:
+    driver: bridge
+
+volumes:
+  pgdata_test:

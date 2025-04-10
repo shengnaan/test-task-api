@@ -20,6 +20,16 @@ class Settings:
                     f"{DB_USER}:{DB_PASSWORD}@{DB_ALEMBIC_SERVER}:"
                     f"{DB_PORT}/{DB_NAME}")
 
+    TEST_POSTGRES_USER = os.getenv("TEST_POSTGRES_USER")
+    TEST_POSTGRES_PASSWORD = os.getenv("TEST_POSTGRES_PASSWORD")
+    TEST_POSTGRES_SERVER = os.getenv("TEST_POSTGRES_SERVER")
+    TEST_POSTGRES_PORT = os.getenv("TEST_POSTGRES_PORT")
+    TEST_POSTGRES_DB = os.getenv("TEST_POSTGRES_DB")
+    TEST_DATABASE_URL = (f"postgresql+asyncpg://"
+                         f"{TEST_POSTGRES_USER}:{TEST_POSTGRES_PASSWORD}@"
+                         f"{TEST_POSTGRES_SERVER}:{TEST_POSTGRES_PORT}/"
+                         f"{TEST_POSTGRES_DB}")
+
     API_PORT = os.getenv("API_PORT")
     API_VERSION = os.getenv("API_VERSION")
     API_TITLE = os.getenv("API_TITLE")
