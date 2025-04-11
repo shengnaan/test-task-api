@@ -63,7 +63,7 @@ docker compose up --build
 ## Дополнительно
 
 На Github настроено CI, для проверки линтером и прохождения всех тестов после пуша.
-Но можно запустать тесты локально, через команду:
+Но можно запустать тесты локально (в репозитории присутствует готовый .env.test для этого), через команду:
 ```
 docker-compose -f docker-compose-test.yml up --build --abort-on-container-exit --exit-code-from test_app
 ```
